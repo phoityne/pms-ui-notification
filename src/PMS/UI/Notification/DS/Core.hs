@@ -71,14 +71,26 @@ work = await >>= \case
 -- |
 --
 mcp2json :: DM.McpNotification -> AppContext DM.JsonRpcNotification
-mcp2json (DM.McpToolListChangedNotification dat) = do
+mcp2json (DM.McpToolsListChangedNotification dat) = do
   $logDebugS DM._LOGTAG $ T.pack $ "mcp2json: " ++ show dat
 
-  let params = encode (dat^.DM.paramsMcpToolListChangedNotificationData)
+  let params = encode (dat^.DM.paramsMcpToolsListChangedNotificationData)
   $logDebugS DM._LOGTAG $ T.pack $ "mcp2json: " ++ show params
 
   let json = def {
-             DM._methodJsonRpcNotification = dat^.DM.methodMcpToolListChangedNotificationData
+             DM._methodJsonRpcNotification = dat^.DM.methodMcpToolsListChangedNotificationData
+           , DM._paramsJsonRpcNotification = Just (DM.RawJsonByteString params)
+           } 
+  return json
+
+mcp2json (DM.McpPromptsListChangedNotification dat) = do
+  $logDebugS DM._LOGTAG $ T.pack $ "mcp2json: " ++ show dat
+
+  let params = encode (dat^.DM.paramsMcpPromptsListChangedNotificationData)
+  $logDebugS DM._LOGTAG $ T.pack $ "mcp2json: " ++ show params
+
+  let json = def {
+             DM._methodJsonRpcNotification = dat^.DM.methodMcpPromptsListChangedNotificationData
            , DM._paramsJsonRpcNotification = Just (DM.RawJsonByteString params)
            } 
   return json

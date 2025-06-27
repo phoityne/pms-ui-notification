@@ -92,7 +92,7 @@ tearDown ctx = do
 run :: SpecWith SpecContext
 run = do
   describe "runWithAppData" $ do
-    context "when McpToolListChangedNotification" $ do
+    context "when McpToolsListChangedNotification" $ do
       it "should be JsonRpcNotification" $ \ctx -> do 
         putStrLn "[INFO] EXECUTING THE FIRST TEST."
 
@@ -100,7 +100,7 @@ run = do
             domDat = ctx^.domainDataSpecContext
             appDat = ctx^.appDataSpecContext
             queue  = domDat^.DM.notificationQueueDomainData
-            noti   = DM.McpToolListChangedNotification def
+            noti   = DM.McpToolsListChangedNotification def
             expect = True
             
         thId <- async $ SUT.runWithAppData appDat domDat
