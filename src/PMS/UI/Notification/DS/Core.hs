@@ -95,6 +95,18 @@ mcp2json (DM.McpPromptsListChangedNotification dat) = do
            } 
   return json
 
+mcp2json (DM.McpResourcesListChangedNotification dat) = do
+  $logDebugS DM._LOGTAG $ T.pack $ "mcp2json: " ++ show dat
+
+  let params = encode (dat^.DM.paramsMcpResourcesListChangedNotificationData)
+  $logDebugS DM._LOGTAG $ T.pack $ "mcp2json: " ++ show params
+
+  let json = def {
+             DM._methodJsonRpcNotification = dat^.DM.methodMcpResourcesListChangedNotificationData
+           , DM._paramsJsonRpcNotification = Just (DM.RawJsonByteString params)
+           } 
+  return json
+
 ---------------------------------------------------------------------------------
 -- |
 --
